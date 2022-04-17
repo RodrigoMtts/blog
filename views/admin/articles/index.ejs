@@ -1,0 +1,56 @@
+<%- include("../../partials/header.ejs")%>
+<%- include("../../partials/navbar.ejs")%>
+<body>
+<div class="container">
+    <hr>
+    <h2>Artigos</h2>
+    <a class="btn btn-success" href="/admin/articles/new">Criar novo artigos</a>
+    <hr>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Título</th>
+                <th>Slug</th>
+                <th>Category</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% articles.forEach(article => { %>
+                <tr>
+                    <td><%= article.id%></td>
+                    <td><%= article.title%></td>
+                    <td><%= article.slug%></td>
+                    <td><%= article.category.title %></td>
+                    <td>
+                        <a class="btn btn-warning" href="/admin/articles/edit/<%= article.id %>">Editar</a>
+                        <!-- <form style="display: inline;" method="POST" action="/admin/articles/edit/<%= article.id %>" >
+                            <input type="hidden" name="id" value="<%= article.id %>">
+                            <button type="submit" class="btn btn-danger">Deletar</button>
+                        </form> -->
+                        <form style="display: inline;" method="POST" action="/articles/delete" onsubmit="confirmarDelecao(event, this)">
+                            <input type="hidden" name="id" value="<%= article.id %>">
+                            <button type="submit" class="btn btn-danger">Deletar</button>
+                        </form>
+                    </td>
+                </tr>
+            <% }) %>
+        </tbody>
+    </table>
+</div>
+</body>
+<script>
+    function confirmarDelecao(event, form){
+        event.preventDefault()
+        let decision = confirm("Deseja realmente deletar")
+        if(decision){
+            form.submit()
+        }else{
+            console.log("NÃO Vai deletar")
+        }
+    }
+
+    // const form = document.querySelector("form").onsubmit = confirmarDelecao()
+</script>
+<%- include("../../partials/footer.ejs")%>

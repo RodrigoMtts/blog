@@ -1,0 +1,48 @@
+<%- include("../../partials/header.ejs")%>
+<%- include("../../partials/navbar.ejs")%>
+<div class="container">
+    <hr>
+    <h2>Usuários</h2>
+    <a class="btn btn-success" href="/admin/create">Criar novo usuário</a>
+    <hr>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>E-mail</th>
+                <th>Senha</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% users.forEach(user => { %>
+                <tr>
+                    <td><%= user.id%></td>
+                    <td><%= user.email%></td>
+                    <td><%= user.password%></td>
+                    <td>
+                        <a class="btn btn-warning" href="/admin/categories/edit/<%= user.id %>">Editar</a>
+                        <form style="display: inline;" method="POST" action="/categories/delete" onsubmit="confirmarDelecao(event, this)">
+                            <input type="hidden" name="id" value="<%= user.id %>">
+                            <button type="submit" class="btn btn-danger">Deletar</button>
+                        </form>
+                    </td>
+                </tr>
+            <% }) %>
+        </tbody>
+    </table>
+</div>
+<!-- <script>
+    function confirmarDelecao(event, form){
+        event.preventDefault()
+        let decision = confirm("Deseja realmente deletar")
+        if(decision){
+            form.submit()
+        }else{
+            console.log("NÃO Vai deletar")
+        }
+    }
+
+    // const form = document.querySelector("form").onsubmit = confirmarDelecao()
+</script> -->
+<%- include("../../partials/footer.ejs")%>
